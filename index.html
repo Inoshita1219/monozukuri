@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <title>my firestore app
+  </title>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsvxGxwltAhW2VktWPOkqcTN8gRlJyqYI",
+      authDomain: "monodes1kobayashi2023.firebaseapp.com",
+      projectId: "monodes1kobayashi2023",
+      storageBucket: "monodes1kobayashi2023.appspot.com",
+      messagingSenderId: "228719155685",
+      appId: "1:228719155685:web:389048cd670dd265a0370c"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(app);
+    function putMsg() {
+      db.collection("col").add({
+        name: document.getElementById('name').value,
+        msg: document.getElementById('msg').value
+      });
+    }
+    function getMsg() {
+      let s = "";
+      db.collection("col").get().then((qs) => {
+        qs.forEach((doc) => {
+          const d = doc.data();
+          s += d.name + ":" + d.msg + "<br>";
+        });
+        document.getElementById('board').innerHTML = s;
+      });
+    }
+  </script>
+  <h1>firestore アプリ</h1>
+  <div>
+    name <input id="name"><br>
+    message <input id="msg"><br>
+    <button onclick="putMsg()">書き込み</button>
+  </div>
+  <h2>メッセージ一覧</h2>
+  <div>
+    <button onclick="getMsg()">読み込み</button>
+  </div>
+  <div id="board"></div>
+</body>
+
+</html>
